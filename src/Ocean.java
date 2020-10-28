@@ -64,6 +64,7 @@ public class Ocean {
         Random random = new Random();
         //In the game there are 13 ships in total
 
+
         Ship[] ships = new Ship[13];
         for (int i = 0; i < 13; i++) {
             if (i == 0) {
@@ -80,12 +81,12 @@ public class Ocean {
                 ships[i] = new Submarine();
             }
         }
-        //placing ships
+        //placing ships randomly
         for (Ship ship : ships) {
             while (true) {
                 int row = random.nextInt(20);
                 int column = random.nextInt(20);
-                boolean horizontal = random.nextBoolean();//where ship is placed horizontaly or vertically
+                boolean horizontal = random.nextBoolean();//where ship is placed horizontally or vertically
 
                 if (ship.okToPlaceShipAt(row, column, horizontal, this)) {
                     ship.placeShipAt(row, column, horizontal, this);
@@ -132,7 +133,8 @@ public class Ocean {
         System.out.println(toString());
     }
 
-    public String toString() {
+    public  String toString() {
+
         StringBuilder sb = new StringBuilder();
         sb.append(" ");
         for (int i = 0; i < 20; i++) {
@@ -164,6 +166,45 @@ public class Ocean {
             sb.append("\n");
         }
         return sb.toString();
+    }
+    public void printOcean()
+    {
+        StringBuilder result = new StringBuilder();
+        result.append(" ");
+        for (int i = 0; i < 20; i++) {
+            result.append(String.format("%3d", i));
+        }
+        result.append("\n");
+
+        for (int i = 0; i < 20; i++) {
+            result.append(String.format("%2d ", i));
+            for (int j = 0; j < 20; j++) {
+//				sb.append(ships[i][j].toString());
+
+
+                    //toString will give output accordingly
+                    // if ship[i][j] is a emptyShip instance =>> ( o printed if hitted and . printed if not )
+                    //if ship[i][j] is other ship instance =>> ( x if ship is not sank ,,,If sank changes to S)
+                    if(ships[i][j].getShipType()!="empty")
+                    {
+                        result.append("x");
+
+                    }
+                    else
+                    {
+                        result.append(".");
+
+                    }
+//
+
+
+
+                result.append("  ");
+            }
+            result.append("\n");
+        }
+        System.out.println(result.toString());
+
     }
     public boolean isGameOver() {
         return shipsSunk == 13;

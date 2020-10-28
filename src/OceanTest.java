@@ -9,7 +9,7 @@ public class OceanTest {
     }
     @Before
     public void setUp() throws Exception {
-        System.out.println("before");
+        System.out.println("------------------");
     }
 
     @Test
@@ -32,7 +32,7 @@ public class OceanTest {
         System.out.println("testing tesIsoccupied");
     Ocean ocean =new Ocean();
         for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 20; j++) assertTrue(ocean.isOccupied(i, j));
+            for (int j = 0; j < 20; j++) assertFalse(ocean.isOccupied(i, j));
         }
 
     }
@@ -52,7 +52,8 @@ public class OceanTest {
     }
     @Test
     public void testShootAt2()
-    {  System.out.println("testshootat2 tesitng ");
+    {
+        System.out.println("testshootat2 tesitng ");
         Ocean oc =new Ocean();
         Submarine sub =new Submarine();
         sub.placeShipAt(1,0,true,oc);
@@ -66,10 +67,7 @@ public class OceanTest {
         assertEquals(1,oc.getShipsSunk());
 
         }
-    @After
-    public void tearDown() throws Exception {
-        System.out.println("after");
-    }
+
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {

@@ -1,21 +1,63 @@
 import java.util.Scanner;
 
-/*
-In this class we will setup the ocean( using  Ocean.java )
-Took 5 shots inputs at a time (input from user )
+class inputUser{
 
- */
+    static void input(Ocean ocean)
+    {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Number of input you want to give ");
+            int n =Integer.parseInt(scanner.nextLine());
+            System.out.print("Enter "+n+" places you want to shoot at: ");
+
+            //If the input is q user is quiting :(
+            for(int i=0;i<n;i++) {
+                try {
+                    String x = scanner.nextLine();
+
+
+                    int input1 = Integer.parseInt(x);
+
+                    if (x.equals("q")) {
+                        System.out.println("Game over!");
+                        break;
+                    }
+
+                    String y = scanner.nextLine();
+                    int input2 = Integer.valueOf(y);
+
+                    if (input1 >= 0 && input1 <= 19 && input2 >= 0 && input2 <= 19) {
+                        if (ocean.shootAt(Integer.valueOf((x)), Integer.valueOf(y))) {
+                            System.out.println("hit");
+                        } else {
+                            System.out.println("miss");
+                        }
+                    } else {
+                        System.out.println("input out of range ");
+                        continue;
+
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("please give a valid input ");
+                    continue;
+                }
+
+            }
+
+    }
+
+}
 
 public class Game {
+
     public static void main(String[] args) {
 
 
-        Scanner scanner = new Scanner(System.in);
-        Ocean ocean = new Ocean();//Setting up the Ocean
+        Ocean ocean = new Ocean(); //Setting up the Ocean
 
-        System.out.println("Welcome to the battle!!");
+        System.out.println("Welcome to the battleShip Game!!");
 
         ocean.placeAllShipsRandomly();//Placing ships randomly in the ocean
+        ocean.printOcean();
 
         while (true) {
 
@@ -24,44 +66,15 @@ public class Game {
             System.out.println(" How many ships sunk?: " + ocean.getShipsSunk());
             System.out.println();
             ocean.print();
-            /*
-             * autoplay the game
-             */
-
-
-            System.out.print("5 places to shoot at: ");
-            String input = scanner.nextLine();
-            //If the input is q user is quiting :(
-
-            if (input.equals("q")) {
-                System.out.println("Game over!");
-                break;
-            }
-
-            //sample input be like : 0, 0;1,2;2,3;4,6;3,5
-            String[] pairs = input.split("; ");
-            try {
-                for (String pair : pairs) {
-                    String[] locations = pair.split(", ");
-                    if (ocean.shootAt(Integer.parseInt(locations[0]), Integer.parseInt(locations[1]))) {
-                        System.out.println("hit");
-                    } else {
-                        System.out.println("miss");
-                    }
-                }
-            }
-            catch(NumberFormatException e)
-            {
-                System.out.println("input integer values"+e);
-                break;
-
-            }
+            inputUser.input(ocean);
 
             if (ocean.isGameOver()) {
+                Scanner scanner = new Scanner(System.in);
                 System.out.print("Game over! Play again? y or n: ");
-                 input = scanner.nextLine();
-                if (input.equals("y")) {
+                char x = scanner.next().charAt(0);
+                if (x == 'y') {
                     ocean = new Ocean();
+                    System.out.println("Welcome to the battleShip Game!!");
                     ocean.placeAllShipsRandomly();
                 } else {
                     System.out.println("Total shot fired: " + ocean.getShotsFired());
@@ -76,4 +89,5 @@ public class Game {
 
     }
 }
+
 

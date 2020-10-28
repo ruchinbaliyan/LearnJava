@@ -8,8 +8,10 @@ class Cruiser extends Ship{
         Arrays.fill(this.getHit(),false);
 
     }
+
     @Override
     String getShipType() {
+
         return "cruiser";
     }
 

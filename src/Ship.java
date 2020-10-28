@@ -1,17 +1,23 @@
 public abstract class Ship {
 
-    private int bowRow; // the row (0 to 19) which contains the bow (front) of the ship.
-    private int bowColumn; //  the column which contains the bow (front) of the ship.
-    private int length; // the number of squares occupied by the ship. An ”empty sea” location has length 1.
-    private boolean horizontal; //  true if the ship occupies a single row, false otherwise. Ships will either be placed vertically or horizontally in the ocean.
-    boolean[] hit; // this is a boolean array of size 8 that record hits. Only battleships use all the locations. The others will use fewer.
+    private int frontRow;
+    private int frontColumn;
+    private int length;
+    private boolean horizontal;
+    private boolean[] hit;
 
+    // the row (0 to 19) which contains the bow (front) of the ship.
+    // the number of squares occupied by the ship. An ”empty sea” location has length 1.
+    //  the column which contains the bow (front) of the ship.
+    //  true if the ship occupies a single row, false otherwise. Ships will either be placed vertically or horizontally in the ocean.
+    // this is a boolean array of size 8 that record hits. Only battleships use all the locations. The others will use fewer.
     //this is the abstract method implemented by the type of ship
+
     abstract String getShipType();
     abstract String Power();
 
-//Checking if location is ok to place a ship (horixinatlly or vertically ) also the  ships must not be adjacent to each other
-    boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean) {
+//Checking if location is ok to place a ship (horizontally or vertically ) also the  ships must not be adjacent to each other
+    protected boolean okToPlaceShipAt(int row, int column, boolean horizontal, Ocean ocean) {
 
         if (!horizontal) {
             if (row + getLength() > 20) {
@@ -54,9 +60,9 @@ public abstract class Ship {
         return true;
     }
 
-    public void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) {
-        bowRow = row;
-        bowColumn = column;
+    protected void placeShipAt(int row, int column, boolean horizontal, Ocean ocean) {
+        frontRow = row;
+        frontColumn = column;
         this.horizontal = horizontal;
 
 
@@ -73,32 +79,32 @@ public abstract class Ship {
     }
 /*
 checking if tthe location is hit or not  used to print . if false else {x,S} depends*/
-    public boolean wasShootAt(int row, int column) {
+    protected boolean wasShootAt(int row, int column) {
         boolean h;
         if (horizontal) {
 
-            h =hit[column-this.bowColumn] ;
+            h =hit[column-this.frontColumn] ;
 
             return h;
         } else {
-            h=hit[row - this.bowRow];
+            h=hit[row - this.frontRow];
             return  h;
         }
     }
 
 //Setting value in hit[boolean] array of the ship t/f
-    boolean shootAt(int row, int column)
+    protected boolean shootAt(int row, int column)
     {
         if (!isSunk()) {
             if (horizontal) {
-                if (row == this.bowRow && column < this.bowColumn + length) {
-                    hit[column - this.bowColumn] = true;
+                if (row == this.frontRow  && column < this.frontColumn + length) {
+                    hit[column - this.frontColumn] = true;
                     return true;
                 }
             }
             else {
-                if (column == this.bowColumn && row < this.bowRow + length) {
-                    hit[row - this.bowRow] = true;
+                if (column == this.frontColumn && row < this.frontRow + length) {
+                    hit[row - this.frontRow] = true;
                     return true;
                 }
             }
@@ -106,7 +112,7 @@ checking if tthe location is hit or not  used to print . if false else {x,S} dep
         return false;
     }
 
-    public boolean isSunk()
+    protected boolean isSunk()
     {
         for (boolean b : hit)
             if (!b)
@@ -118,26 +124,26 @@ checking if tthe location is hit or not  used to print . if false else {x,S} dep
 
     public String toString()
     {
-        return isSunk() ? "x" : "S";
+        return isSunk() ? "S" : "H";
 
     }
 
 
 
-    public int getBowRow() {
-        return bowRow;
+    public int getfrontRow() {
+        return frontRow;
     }
 
-    public void setBowRow(int bowRow) {
-        this.bowRow = bowRow;
+    public void setfrontRow(int frontRow) {
+        this.frontRow = frontRow;
     }
 
-    public int getBowColumn() {
-        return bowColumn;
+    public int getfrontColumn() {
+        return frontColumn;
     }
 
-    public void setBowColumn(int bowColumn) {
-        this.bowColumn = bowColumn;
+    public void setfrontColumn(int frontColumn) {
+        this.frontColumn = frontColumn;
     }
 
     public int getLength() {
